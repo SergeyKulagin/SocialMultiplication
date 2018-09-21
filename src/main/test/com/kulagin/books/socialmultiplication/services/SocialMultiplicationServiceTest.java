@@ -2,6 +2,7 @@ package com.kulagin.books.socialmultiplication.services;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,7 +15,7 @@ import static org.mockito.BDDMockito.given;
 public class SocialMultiplicationServiceTest {
   @MockBean
   private RandomNumberService randomNumberService;
-  @MockBean
+  @Autowired
   private SocialMultiplicationService socialMultiplicationService;
 
   @Test
