@@ -23,10 +23,12 @@ $(document).ready(function () {
                 attemptResult: $("#result-input").val()
             }),
             success: function (result) {
+                $("#result-input").val("");
+                var msg = result.multiplicationAttempt.multiplication.a + "x" + result.multiplicationAttempt.multiplication.b + "=" + result.multiplicationAttempt.attemptResult;
                 if(result.correct){
-                    $("#attempt-result-message").text("Success!")
+                    $("#attempt-result-message").text(msg + " => Success!");
                 }else {
-                    $("#attempt-result-message").text("Failure!")
+                    $("#attempt-result-message").text(msg + " => Failure!")
                 }
             }
         })
@@ -35,5 +37,6 @@ $(document).ready(function () {
     getMultiplication();
     $("#check-button").on("click", function () {
         sendMultiplicationResult();
+        getMultiplication();
     })
 })
