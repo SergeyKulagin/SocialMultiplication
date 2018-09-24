@@ -14,6 +14,7 @@ public class MultiplicationController {
   private final SocialMultiplicationService multiplicationService;
 
   @GetMapping
+  @RequestMapping("/random")
   Multiplication getRandomMultiplication(){
     return multiplicationService.getRandomMultiplication();
   }

@@ -43,7 +43,7 @@ public class MultiplicationControllerTest {
     // when
     MockHttpServletResponse response = mvc.perform(
         MockMvcRequestBuilders
-            .get("/multiplications")
+            .get("/multiplications/random")
             .accept(MediaType.APPLICATION_JSON)
     ).andReturn()
         .getResponse();
