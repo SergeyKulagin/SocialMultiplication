@@ -1,5 +1,9 @@
 package com.kulagin.books.socialmultiplication.services;
 
+import com.kulagin.books.socialmultiplication.services.model.Multiplication;
+import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttempt;
+import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttemptResult;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,14 @@ public class SocialMultiplicationServiceTest {
     assertThat(multiplication.getA()).isEqualTo(2);
     assertThat(multiplication.getB()).isEqualTo(3);
     assertThat(multiplication.getResult()).isEqualTo(6);
+  }
+
+  @Test
+  public void checkResult_shouldSuccess(){
+    int a = 3, b = 2, correctResult = a * b;
+    final MultiplicationAttempt attempt = new MultiplicationAttempt(new Multiplication(a,b), correctResult);
+    MultiplicationAttemptResult multiplicationAttemptResult = socialMultiplicationService.checkAttempt(attempt);
+    Assertions.assertThat(multiplicationAttemptResult.isCorrect()).isEqualTo(true);
   }
 
 }
