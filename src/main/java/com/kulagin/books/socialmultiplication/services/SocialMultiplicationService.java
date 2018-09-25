@@ -1,8 +1,8 @@
 package com.kulagin.books.socialmultiplication.services;
 
-import com.kulagin.books.socialmultiplication.services.model.Multiplication;
-import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttempt;
-import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttemptResult;
+import com.kulagin.books.socialmultiplication.services.dto.Multiplication;
+import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt;
+import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttemptResult;
 
 public interface SocialMultiplicationService {
     Multiplication getRandomMultiplication();

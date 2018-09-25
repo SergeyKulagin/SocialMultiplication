@@ -1,9 +1,9 @@
 package com.kulagin.books.socialmultiplication.services;
 
-import com.kulagin.books.socialmultiplication.services.model.Multiplication;
-import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttempt;
-import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttemptResult;
-import com.kulagin.books.socialmultiplication.services.model.User;
+import com.kulagin.books.socialmultiplication.services.dto.Multiplication;
+import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt;
+import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttemptResult;
+import com.kulagin.books.socialmultiplication.services.dto.User;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

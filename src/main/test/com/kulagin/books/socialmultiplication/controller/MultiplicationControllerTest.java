@@ -2,7 +2,7 @@ package com.kulagin.books.socialmultiplication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kulagin.books.socialmultiplication.services.SocialMultiplicationService;
-import com.kulagin.books.socialmultiplication.services.model.Multiplication;
+import com.kulagin.books.socialmultiplication.services.dto.Multiplication;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;

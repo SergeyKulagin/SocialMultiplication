@@ -1,4 +1,4 @@
-package com.kulagin.books.socialmultiplication.services.model;
+package com.kulagin.books.socialmultiplication.services.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

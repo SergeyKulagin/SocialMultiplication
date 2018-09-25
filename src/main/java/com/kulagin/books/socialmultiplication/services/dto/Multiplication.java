@@ -1,8 +1,12 @@
-package com.kulagin.books.socialmultiplication.services.model;
+package com.kulagin.books.socialmultiplication.services.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @RequiredArgsConstructor
 @Getter

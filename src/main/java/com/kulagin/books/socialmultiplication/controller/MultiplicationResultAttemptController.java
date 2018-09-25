@@ -1,8 +1,8 @@
 package com.kulagin.books.socialmultiplication.controller;
 
 import com.kulagin.books.socialmultiplication.services.SocialMultiplicationService;
-import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttempt;
-import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttemptResult;
+import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt;
+import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttemptResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
