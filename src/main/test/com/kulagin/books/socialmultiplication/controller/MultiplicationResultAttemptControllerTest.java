@@ -5,6 +5,7 @@ import com.kulagin.books.socialmultiplication.services.SocialMultiplicationServi
 import com.kulagin.books.socialmultiplication.services.model.Multiplication;
 import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttempt;
 import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttemptResult;
+import com.kulagin.books.socialmultiplication.services.model.User;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,12 +41,12 @@ public class MultiplicationResultAttemptControllerTest {
 
 
   @Test
-  public void postMultiplicationResult() throws Exception {
+  public void postMultiplicationResult_shouldBeOK() throws Exception {
     int a = 2, b = 3, resultCorrect = a * b;
-    final MultiplicationAttempt multiplicationAttempt = new MultiplicationAttempt(new Multiplication(a, b), resultCorrect);
+    final MultiplicationAttempt multiplicationAttempt = new MultiplicationAttempt(new Multiplication(a, b), new User("Sergey"), resultCorrect);
     final MultiplicationAttemptResult multiplicationAttemptResult = new MultiplicationAttemptResult(
-        new MultiplicationAttempt(new Multiplication(a, b), resultCorrect),
-        true
+        new MultiplicationAttempt(new Multiplication(a, b), new User("Sergey"), resultCorrect),
+        true // => correct
     );
     // set up behaviour
     BDDMockito

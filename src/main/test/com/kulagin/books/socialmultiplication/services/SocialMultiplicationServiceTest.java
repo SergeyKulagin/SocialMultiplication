@@ -3,6 +3,7 @@ package com.kulagin.books.socialmultiplication.services;
 import com.kulagin.books.socialmultiplication.services.model.Multiplication;
 import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttempt;
 import com.kulagin.books.socialmultiplication.services.model.MultiplicationAttemptResult;
+import com.kulagin.books.socialmultiplication.services.model.User;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,7 @@ public class SocialMultiplicationServiceTest {
   @Test
   public void checkResult_shouldSuccess(){
     int a = 3, b = 2, correctResult = a * b;
-    final MultiplicationAttempt attempt = new MultiplicationAttempt(new Multiplication(a,b), correctResult);
+    final MultiplicationAttempt attempt = new MultiplicationAttempt(new Multiplication(a,b),new User("Sergey"), correctResult);
     MultiplicationAttemptResult multiplicationAttemptResult = socialMultiplicationService.checkAttempt(attempt);
     Assertions.assertThat(multiplicationAttemptResult.isCorrect()).isEqualTo(true);
   }

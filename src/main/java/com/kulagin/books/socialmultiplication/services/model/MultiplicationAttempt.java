@@ -9,5 +9,6 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor(force = true) // (de)serialization
 public class MultiplicationAttempt {
   private final Multiplication multiplication;
+  private final User user;
   private final int attemptResult;
 }

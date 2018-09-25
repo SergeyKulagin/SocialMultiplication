@@ -20,6 +20,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
                 multiplication: currentMultiplication,
+                user: {alias: $("#user-nickname").val()},
                 attemptResult: $("#result-input").val()
             }),
             success: function (result) {
