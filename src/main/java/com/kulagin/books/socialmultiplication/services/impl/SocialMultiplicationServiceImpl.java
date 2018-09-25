@@ -12,6 +12,8 @@ import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class SocialMultiplicationServiceImpl implements SocialMultiplicationService {
@@ -33,8 +35,8 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
         attempt.getMultiplication().getA(),
         attempt.getMultiplication().getB()
     );
-    User user = userRepository.findByAlias(attempt.getUser().getAlias());
-    user = (user == null) ? new User(attempt.getUser().getAlias()) : user;
+    final Optional<User> userOptional = userRepository.findByAlias(attempt.getUser().getAlias());
+    final User user = userOptional.orElse(new User(attempt.getUser().getAlias()));
     final Attempt attemptModel = new Attempt(
         user,
         multiplication,
