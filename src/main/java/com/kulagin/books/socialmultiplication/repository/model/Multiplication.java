@@ -1,5 +1,6 @@
 package com.kulagin.books.socialmultiplication.repository.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(force = true)
 @Entity
+@EqualsAndHashCode
 public class Multiplication {
   @Id
   @GeneratedValue
