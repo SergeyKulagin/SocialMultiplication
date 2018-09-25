@@ -1,6 +1,7 @@
 package com.kulagin.books.socialmultiplication.services;
 
 import com.kulagin.books.socialmultiplication.repository.AttemptRepository;
+import com.kulagin.books.socialmultiplication.repository.MultiplicationRepository;
 import com.kulagin.books.socialmultiplication.repository.UserRepository;
 import com.kulagin.books.socialmultiplication.repository.model.Attempt;
 import com.kulagin.books.socialmultiplication.services.dto.Multiplication;
@@ -28,6 +29,8 @@ public class SocialMultiplicationServiceTest {
   private AttemptRepository attemptRepository;
   @MockBean
   private UserRepository userRepository;
+  @MockBean
+  private MultiplicationRepository multiplicationRepository;
   @Autowired
   private SocialMultiplicationService socialMultiplicationService;
 
