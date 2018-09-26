@@ -11,9 +11,9 @@ import com.kulagin.books.socialmultiplication.services.SocialMultiplicationServi
 import com.kulagin.books.socialmultiplication.services.dto.Multiplication;
 import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt;
 import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttemptResult;
-import com.kulagin.books.socialmultiplication.services.dto.User;
+import com.kulagin.books.socialmultiplication.util.MultiplicationConverter;
+import com.kulagin.books.socialmultiplication.util.UserConverter;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,8 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
   private final UserRepository userRepository;
   private final AttemptRepository attemptRepository;
   private final MultiplicationRepository multiplicationRepository;
-  private final ModelMapper modelMapper;
+  private final MultiplicationConverter multiplicationConverter;
+  private final UserConverter userConverter;
 
   @Override
   public Multiplication getRandomMultiplication() {
@@ -56,7 +57,8 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
     final AttemptEntity attemptModel = new AttemptEntity(
         user,
         multiplication,
-        correct
+        correct,
+        attempt.getAttemptResult()
     );
     attemptRepository.save(attemptModel);
     return new MultiplicationAttemptResult(attempt, correct);
@@ -78,13 +80,9 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
               .multiplicationAttempt(
                   MultiplicationAttempt
                       .builder()
-                      .attemptResult(-1)
-                      .user(new User(multiplicationEntity.getUser().getAlias()))
-                      .multiplication(Multiplication.builder()
-                          .a(multiplicationEntity.getMultiplication().getA())
-                          .b(multiplicationEntity.getMultiplication().getB())
-                          .build()
-                      )
+                      .attemptResult(multiplicationEntity.getAttemptResult())
+                      .user(userConverter.convertBA(multiplicationEntity.getUser()))
+                      .multiplication(multiplicationConverter.convertBA(multiplicationEntity.getMultiplication()))
                       .build()
               )
               .build()

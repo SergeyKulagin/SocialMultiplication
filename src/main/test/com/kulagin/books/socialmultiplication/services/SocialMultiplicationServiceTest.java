@@ -1,6 +1,5 @@
 package com.kulagin.books.socialmultiplication.services;
 
-import com.kulagin.books.socialmultiplication.TestUtil;
 import com.kulagin.books.socialmultiplication.repository.AttemptRepository;
 import com.kulagin.books.socialmultiplication.repository.MultiplicationRepository;
 import com.kulagin.books.socialmultiplication.repository.UserRepository;
@@ -64,12 +63,14 @@ public class SocialMultiplicationServiceTest {
     AttemptEntity a1 = new AttemptEntity(
         user,
         new MultiplicationEntity(2, 3),
-        true
+        true,
+        6
     );
     AttemptEntity a2 = new AttemptEntity(
         user,
         new MultiplicationEntity(2, 5),
-        true
+        true,
+        11
     );
     given(attemptRepository.findLastAttempts(any(), any()))
         .willReturn(Arrays.asList(a1, a2));
@@ -79,6 +80,19 @@ public class SocialMultiplicationServiceTest {
 
     //then
     Assertions.assertThat(attemptResult.size()).isEqualTo(2);
+    Assertions.assertThat(attemptResult.get(0)).isEqualTo(MultiplicationAttemptResult
+        .builder()
+        .correct(true)
+        .multiplicationAttempt(
+            MultiplicationAttempt
+                .builder()
+                .attemptResult(6)
+                .user(new User(USER))
+                .multiplication(new Multiplication(2,3))
+                .build()
+        )
+        .build()
+    );
   }
 
   @Test
@@ -99,7 +113,8 @@ public class SocialMultiplicationServiceTest {
     AttemptEntity expectedAttempt = new AttemptEntity(
         new UserEntity(USER),
         new MultiplicationEntity(a, b),
-        correct
+        correct,
+        correct ? correctResult : correctResult + 100
     );
     verify(attemptRepository).save(expectedAttempt);
   }

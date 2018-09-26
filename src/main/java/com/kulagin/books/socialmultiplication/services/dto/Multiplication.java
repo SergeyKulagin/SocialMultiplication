@@ -1,14 +1,12 @@
 package com.kulagin.books.socialmultiplication.services.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @RequiredArgsConstructor
 @Getter
 @NoArgsConstructor(force = true)
 @Builder
+@EqualsAndHashCode
 public class Multiplication {
   private final int a;
   private final int b;

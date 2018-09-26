@@ -26,6 +26,8 @@ public class AttemptEntity {
   private final MultiplicationEntity multiplication;
   @Column(name = "IS_CORRECT")
   private final Boolean correct;
+  @Column(name = "ATTEMPT_RESULT")
+  private final int attemptResult;
   @Column(name = "ATTEMPT_DATE")
   @Temporal(value = TemporalType.TIMESTAMP)
   private Date date = new Date();
