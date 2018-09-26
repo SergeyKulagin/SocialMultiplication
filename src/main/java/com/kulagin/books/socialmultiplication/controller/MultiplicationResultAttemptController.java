@@ -4,10 +4,9 @@ import com.kulagin.books.socialmultiplication.services.SocialMultiplicationServi
 import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt;
 import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttemptResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController //@Controller + @ResponseBody
 @RequestMapping("/results")
@@ -18,5 +17,10 @@ public class MultiplicationResultAttemptController {
   @PostMapping
   MultiplicationAttemptResult checkResult(@RequestBody MultiplicationAttempt multiplicationAttempt) {
     return multiplicationService.checkAttempt(multiplicationAttempt);
+  }
+
+  @GetMapping
+  List<MultiplicationAttemptResult> getResults(@RequestParam("alias") String userAlias){
+    return multiplicationService.getLastAttempts(userAlias);
   }
 }

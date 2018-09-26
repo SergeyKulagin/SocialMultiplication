@@ -22,13 +22,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static com.kulagin.books.socialmultiplication.TestUtil.USER;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(MultiplicationResultAttemptController.class)
 public class MultiplicationResultAttemptControllerTest {
   @MockBean
   private SocialMultiplicationService multiplicationService;
-  private JacksonTester<MultiplicationAttempt> jsonRequest;
-  private JacksonTester<MultiplicationAttemptResult> jsonResponse;
+  private JacksonTester<MultiplicationAttempt> postJsonRequest;
+  private JacksonTester<MultiplicationAttemptResult> postJsonResponse;
+  private JacksonTester<List<MultiplicationAttemptResult>> getJsonResponse;
 
   @Autowired
   private MockMvc mvc;
@@ -58,12 +64,53 @@ public class MultiplicationResultAttemptControllerTest {
         MockMvcRequestBuilders
             .post("/results")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(jsonRequest.write(multiplicationAttempt).getJson())
+            .content(postJsonRequest.write(multiplicationAttempt).getJson())
     )
         .andReturn()
         .getResponse();
     Assertions.assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-    Assertions.assertThat(response.getContentAsString()).isEqualTo(jsonResponse.write(multiplicationAttemptResult).getJson());
+    Assertions.assertThat(response.getContentAsString()).isEqualTo(postJsonResponse.write(multiplicationAttemptResult).getJson());
+  }
 
+  @Test
+  public void getMultiplicationResult_returnExpected() throws Exception {
+    MultiplicationAttemptResult multiplicationAttemptResult = MultiplicationAttemptResult
+        .builder()
+        .multiplicationAttempt(
+            MultiplicationAttempt
+                .builder()
+                .multiplication(
+                    Multiplication
+                        .builder()
+                        .a(2)
+                        .b(3)
+                        .build()
+                )
+                .user(
+                    User
+                    .builder()
+                    .alias(USER)
+                    .build()
+                )
+                .attemptResult(6)
+                .build()
+        )
+        .correct(true)
+        .build();
+    BDDMockito
+        .given(multiplicationService.getLastAttempts(USER))
+        .willReturn(Arrays.asList(multiplicationAttemptResult));
+
+    MockHttpServletResponse response = mvc.perform(
+        MockMvcRequestBuilders
+            .get("/results")
+            .param("alias", USER)
+    )
+        .andReturn()
+        .getResponse();
+
+    Assertions.assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    Assertions.assertThat(response.getContentAsString())
+        .isEqualTo(getJsonResponse.write(Arrays.asList(multiplicationAttemptResult)).getJson());
   }
 }
