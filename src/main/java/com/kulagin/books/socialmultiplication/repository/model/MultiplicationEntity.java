@@ -11,17 +11,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
 @Getter
+@NoArgsConstructor(force = true)
 @Entity
 @EqualsAndHashCode
-public class User {
+public class MultiplicationEntity {
   @Id
   @GeneratedValue
-  @Column(name = "USER_ID")
+  @Column(name = "MULTIPLICATION_ID")
   private Long id;
-  @Column(name = "ALIAS")
-  private final String alias;
-
-
+  @Column(name = "A")
+  private final int a;
+  @Column(name = "B")
+  private final int b;
 }

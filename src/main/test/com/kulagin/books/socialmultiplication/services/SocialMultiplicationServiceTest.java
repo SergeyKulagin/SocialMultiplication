@@ -1,9 +1,12 @@
 package com.kulagin.books.socialmultiplication.services;
 
+import com.kulagin.books.socialmultiplication.TestUtil;
 import com.kulagin.books.socialmultiplication.repository.AttemptRepository;
 import com.kulagin.books.socialmultiplication.repository.MultiplicationRepository;
 import com.kulagin.books.socialmultiplication.repository.UserRepository;
-import com.kulagin.books.socialmultiplication.repository.model.Attempt;
+import com.kulagin.books.socialmultiplication.repository.model.AttemptEntity;
+import com.kulagin.books.socialmultiplication.repository.model.MultiplicationEntity;
+import com.kulagin.books.socialmultiplication.repository.model.UserEntity;
 import com.kulagin.books.socialmultiplication.services.dto.Multiplication;
 import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttempt;
 import com.kulagin.books.socialmultiplication.services.dto.MultiplicationAttemptResult;
@@ -16,7 +19,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static com.kulagin.books.socialmultiplication.TestUtil.USER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -36,9 +45,9 @@ public class SocialMultiplicationServiceTest {
 
 
   @Test
-  public void getSocialMultiplication_shouldReturnExpected(){
+  public void getSocialMultiplication_shouldReturnExpected() {
     //set up mocks
-    given(randomNumberService.getRandomInt()).willReturn(2,3);
+    given(randomNumberService.getRandomInt()).willReturn(2, 3);
 
     //when
     Multiplication multiplication = socialMultiplicationService.getRandomMultiplication();
@@ -50,23 +59,46 @@ public class SocialMultiplicationServiceTest {
   }
 
   @Test
-  public void checkResult_shouldBeCorrect(){
-     checkResult_generic(true);
+  public void getLastAttempts_shouldReturnOK() {
+    UserEntity user = new UserEntity(USER);
+    AttemptEntity a1 = new AttemptEntity(
+        user,
+        new MultiplicationEntity(2, 3),
+        true
+    );
+    AttemptEntity a2 = new AttemptEntity(
+        user,
+        new MultiplicationEntity(2, 5),
+        true
+    );
+    given(attemptRepository.findLastAttempts(any(), any()))
+        .willReturn(Arrays.asList(a1, a2));
+    given(userRepository.findByAlias(USER)).willReturn(Optional.of(user));
+    //when
+    List<MultiplicationAttemptResult> attemptResult = socialMultiplicationService.getLastAttempts(USER);
+
+    //then
+    Assertions.assertThat(attemptResult.size()).isEqualTo(2);
   }
 
   @Test
-  public void checkResult_shouldBeWrong(){
+  public void checkResult_shouldBeCorrect() {
+    checkResult_generic(true);
+  }
+
+  @Test
+  public void checkResult_shouldBeWrong() {
     checkResult_generic(false);
   }
 
-  private void checkResult_generic(boolean correct){
+  private void checkResult_generic(boolean correct) {
     int a = 3, b = 2, correctResult = a * b;
-    final MultiplicationAttempt attempt = new MultiplicationAttempt(new Multiplication(a,b),new User("Sergey"), correct ? correctResult : correctResult + 100);
+    final MultiplicationAttempt attempt = new MultiplicationAttempt(new Multiplication(a, b), new User("Sergey"), correct ? correctResult : correctResult + 100);
     MultiplicationAttemptResult multiplicationAttemptResult = socialMultiplicationService.checkAttempt(attempt);
     Assertions.assertThat(multiplicationAttemptResult.isCorrect()).isEqualTo(correct);
-    Attempt expectedAttempt= new Attempt(
-        new com.kulagin.books.socialmultiplication.repository.model.User("Sergey"),
-        new com.kulagin.books.socialmultiplication.repository.model.Multiplication(a, b),
+    AttemptEntity expectedAttempt = new AttemptEntity(
+        new UserEntity(USER),
+        new MultiplicationEntity(a, b),
         correct
     );
     verify(attemptRepository).save(expectedAttempt);
