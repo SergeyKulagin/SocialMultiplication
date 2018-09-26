@@ -14,7 +14,7 @@ $(document).ready(function () {
     }
 
     function sendMultiplicationResult() {
-        $.ajax({
+        return $.ajax({
             url: "/results",
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -35,9 +35,36 @@ $(document).ready(function () {
         })
     }
 
+    function getLastResults() {
+        $.ajax({
+            url: "/results/",
+            data: {
+                "alias" : $("#user-nickname").val()
+            }
+        }).then(
+            function (data) {
+                var resultsUI = "";
+                for (var i = 0; i < data.length; i++) {
+                    var attemptResult = data[i];
+                    var attemptResultUI =
+                        "<tr>" +
+                        "<td>{{multiplicationAttempt.multiplication.a}}</td>" +
+                        "<td>{{multiplicationAttempt.multiplication.b}}</td>" +
+                        "<td>{{multiplicationAttempt.attemptResult}}</td>" +
+                        "<td>{{correct}}</td>" +
+                        "</tr>";
+                    resultsUI += Mustache.to_html(attemptResultUI, attemptResult);
+                }
+                $("#attempt-results").html(resultsUI);
+            }
+        )
+    }
+
     getMultiplication();
     $("#check-button").on("click", function () {
-        sendMultiplicationResult();
+        sendMultiplicationResult().then(function () {
+            getLastResults();
+        });
         getMultiplication();
     })
 })
