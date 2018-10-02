@@ -10,4 +10,15 @@ spring:
         show_sql: true
   datasource:
     url: jdbc:h2:file:~/social-multiplication;DB_CLOSE_ON_EXIT=FALSE
+  rabbitmq:
+    host: 192.168.99.100
+
+amqp:
+  multiplication:
+    exchange:
+      name: multiplication-exchange
+    attempt-done-event:
+      routing-key: multiplication-attempt-done
+
+
 

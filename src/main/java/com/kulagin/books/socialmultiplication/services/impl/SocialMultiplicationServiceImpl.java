@@ -1,5 +1,7 @@
 package com.kulagin.books.socialmultiplication.services.impl;
 
+import com.kulagin.books.socialmultiplication.events.EventPublisher;
+import com.kulagin.books.socialmultiplication.events.MultiplicationAttemptDoneEvent;
 import com.kulagin.books.socialmultiplication.repository.AttemptRepository;
 import com.kulagin.books.socialmultiplication.repository.MultiplicationRepository;
 import com.kulagin.books.socialmultiplication.repository.UserRepository;
@@ -31,6 +33,7 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
   private final MultiplicationRepository multiplicationRepository;
   private final MultiplicationConverter multiplicationConverter;
   private final UserConverter userConverter;
+  private final EventPublisher eventPublisher;
 
   @Override
   public Multiplication getRandomMultiplication() {
@@ -61,6 +64,14 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
         attempt.getAttemptResult()
     );
     attemptRepository.save(attemptModel);
+    eventPublisher.send(
+        MultiplicationAttemptDoneEvent
+        .builder()
+        .attemptId(attemptModel.getId())
+        .correct(attemptModel.getCorrect())
+        .userId(attemptModel.getUser().getId())
+        .build()
+    );
     return new MultiplicationAttemptResult(attempt, correct);
   }
 
