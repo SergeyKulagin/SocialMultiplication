@@ -12,8 +12,8 @@ public class EventPublisher {
 
   public EventPublisher(
       RabbitTemplate rabbitTemplate,
-      @Value("${amqp.multiplication.exchange.name") String multiplicationExchangeName,
-      @Value("${amqp.multiplication.attempt-done-event.routing-key") String multiplicationAttemptDoneEventRoutingKey) {
+      @Value("${amqp.multiplication.exchange.name}") String multiplicationExchangeName,
+      @Value("${amqp.multiplication.attempt-done-event.routing-key}") String multiplicationAttemptDoneEventRoutingKey) {
     this.rabbitTemplate = rabbitTemplate;
     this.multiplicationExchangeName = multiplicationExchangeName;
     this.multiplicationAttemptDoneEventRoutingKey = multiplicationAttemptDoneEventRoutingKey;
