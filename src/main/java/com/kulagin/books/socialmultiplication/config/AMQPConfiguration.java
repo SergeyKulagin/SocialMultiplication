@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class AMQPConfiguration {
 
   @Bean
-  public TopicExchange multiplicationExchange(@Value("${amqp.multiplication.exchange.name") String exchangeName) {
+  public TopicExchange multiplicationExchange(@Value("${amqp.multiplication.exchange.name}") String exchangeName) {
     return new TopicExchange(exchangeName);
   }
 
