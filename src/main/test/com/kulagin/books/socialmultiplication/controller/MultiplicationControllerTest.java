@@ -39,7 +39,6 @@ public class MultiplicationControllerTest {
     BDDMockito.given(socialMultiplicationService.getRandomMultiplication())
         .willReturn(new Multiplication(70, 20));
 
-
     // when
     MockHttpServletResponse response = mvc.perform(
         MockMvcRequestBuilders

@@ -45,10 +45,10 @@ public class SocialMultiplicationServiceTest {
 
   @Test
   public void getSocialMultiplication_shouldReturnExpected() {
-    //set up mocks
+    //set up mocks (arrange)
     given(randomNumberService.getRandomInt()).willReturn(2, 3);
 
-    //when
+    //when (act)
     Multiplication multiplication = socialMultiplicationService.getRandomMultiplication();
 
     //then
