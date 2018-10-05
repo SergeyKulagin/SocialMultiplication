@@ -10,4 +10,5 @@ public interface SocialMultiplicationService {
     Multiplication getRandomMultiplication();
     MultiplicationAttemptResult checkAttempt(MultiplicationAttempt attempt);
     List<MultiplicationAttemptResult> getLastAttempts(String userAlias);
+    MultiplicationAttemptResult getAttempt(Long attemptId);
 }

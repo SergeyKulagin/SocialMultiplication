@@ -101,4 +101,23 @@ public class SocialMultiplicationServiceImpl implements SocialMultiplicationServ
     }
     return multiplicationAttemptResults;
   }
+
+  @Override
+  public MultiplicationAttemptResult getAttempt(Long attemptId) {
+    final Optional<AttemptEntity> attemptEntityOptional = attemptRepository.findById(attemptId);
+    if(!attemptEntityOptional.isPresent()){
+      return null;
+    }
+    final AttemptEntity attemptEntity = attemptEntityOptional.get();
+    return MultiplicationAttemptResult
+        .builder()
+        .correct(attemptEntity.getCorrect())
+        .multiplicationAttempt(MultiplicationAttempt
+            .builder()
+            .attemptResult(attemptEntity.getAttemptResult())
+            .multiplication(multiplicationConverter.convertBA(attemptEntity.getMultiplication()))
+            .user(userConverter.convertBA(attemptEntity.getUser()))
+            .build()
+        ).build();
+  }
 }

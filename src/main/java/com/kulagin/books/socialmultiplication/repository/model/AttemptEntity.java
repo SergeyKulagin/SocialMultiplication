@@ -1,9 +1,6 @@
 package com.kulagin.books.socialmultiplication.repository.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,7 +8,9 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@Builder
 @Getter
 public class AttemptEntity {
   @Id

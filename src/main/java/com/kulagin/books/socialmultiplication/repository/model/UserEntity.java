@@ -1,9 +1,6 @@
 package com.kulagin.books.socialmultiplication.repository.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +9,11 @@ import javax.persistence.Id;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Getter
 @Entity
 @EqualsAndHashCode
+@Builder
 public class UserEntity {
   @Id
   @GeneratedValue

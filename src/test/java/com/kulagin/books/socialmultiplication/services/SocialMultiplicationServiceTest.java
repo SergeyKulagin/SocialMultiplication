@@ -13,12 +13,14 @@ import com.kulagin.books.socialmultiplication.services.dto.User;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,6 +94,43 @@ public class SocialMultiplicationServiceTest {
                 .build()
         )
         .build()
+    );
+  }
+
+  @Test
+  public void getAttempt_shouldConvertOk(){
+    //arrange
+    final Long attemptId = 1L;
+    BDDMockito.given(attemptRepository.findById(attemptId)).willReturn(Optional.of(
+        AttemptEntity
+            .builder()
+            .attemptResult(42)
+            .correct(true)
+            .date(new Date())
+            .multiplication(
+                MultiplicationEntity
+                .builder()
+                .a(7)
+                .b(8)
+                .build()
+            )
+        .user(UserEntity.builder().alias(USER).build()).build()
+    ));
+
+    //act
+    MultiplicationAttemptResult attemptResult = socialMultiplicationService.getAttempt(attemptId);
+    Assertions.assertThat(attemptResult).isEqualTo(
+        MultiplicationAttemptResult
+            .builder()
+            .correct(true)
+            .multiplicationAttempt(
+                MultiplicationAttempt
+                    .builder()
+                    .multiplication(Multiplication.builder().a(7).b(8).build())
+                    .user(User.builder().alias(USER).build())
+                    .attemptResult(42)
+                    .build()
+            )
     );
   }
 
