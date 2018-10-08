@@ -23,4 +23,9 @@ public class MultiplicationResultAttemptController {
   List<MultiplicationAttemptResult> getResults(@RequestParam("alias") String userAlias){
     return multiplicationService.getLastAttempts(userAlias);
   }
+
+  @GetMapping(path = "/attempt/{attemptId}")
+  MultiplicationAttemptResult getAttempt(@PathVariable("attemptId") Long attemptId){
+    return multiplicationService.getAttempt(attemptId);
+  }
 }

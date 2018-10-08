@@ -32,9 +32,9 @@ import static com.kulagin.books.socialmultiplication.TestUtil.USER;
 public class MultiplicationResultAttemptControllerTest {
   @MockBean
   private SocialMultiplicationService multiplicationService;
-  private JacksonTester<MultiplicationAttempt> postJsonRequest;
-  private JacksonTester<MultiplicationAttemptResult> postJsonResponse;
-  private JacksonTester<List<MultiplicationAttemptResult>> getJsonResponse;
+  private JacksonTester<MultiplicationAttempt> multiplicationAttemptJson;
+  private JacksonTester<MultiplicationAttemptResult> multiplicationAttemptResultJson;
+  private JacksonTester<List<MultiplicationAttemptResult>> multiplicationAttemptResultListJson;
 
   @Autowired
   private MockMvc mvc;
@@ -64,12 +64,12 @@ public class MultiplicationResultAttemptControllerTest {
         MockMvcRequestBuilders
             .post("/results")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(postJsonRequest.write(multiplicationAttempt).getJson())
+            .content(multiplicationAttemptJson.write(multiplicationAttempt).getJson())
     )
         .andReturn()
         .getResponse();
     Assertions.assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-    Assertions.assertThat(response.getContentAsString()).isEqualTo(postJsonResponse.write(multiplicationAttemptResult).getJson());
+    Assertions.assertThat(response.getContentAsString()).isEqualTo(multiplicationAttemptResultJson.write(multiplicationAttemptResult).getJson());
   }
 
   @Test
@@ -77,23 +77,7 @@ public class MultiplicationResultAttemptControllerTest {
     MultiplicationAttemptResult multiplicationAttemptResult = MultiplicationAttemptResult
         .builder()
         .multiplicationAttempt(
-            MultiplicationAttempt
-                .builder()
-                .multiplication(
-                    Multiplication
-                        .builder()
-                        .a(2)
-                        .b(3)
-                        .build()
-                )
-                .user(
-                    User
-                    .builder()
-                    .alias(USER)
-                    .build()
-                )
-                .attemptResult(6)
-                .build()
+            getAttempt()
         )
         .correct(true)
         .build();
@@ -111,6 +95,50 @@ public class MultiplicationResultAttemptControllerTest {
 
     Assertions.assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     Assertions.assertThat(response.getContentAsString())
-        .isEqualTo(getJsonResponse.write(Arrays.asList(multiplicationAttemptResult)).getJson());
+        .isEqualTo(multiplicationAttemptResultListJson.write(Arrays.asList(multiplicationAttemptResult)).getJson());
+  }
+
+  @Test
+  public void getMultiplicationResultById_returnExpected() throws Exception {
+    //arrange
+    Long attemptId = 1L;
+    BDDMockito.given(multiplicationService.getAttempt(attemptId)).willReturn(MultiplicationAttemptResult
+        .builder()
+        .multiplicationAttempt(getAttempt())
+        .correct(true)
+        .build()
+    );
+    //act
+    MockHttpServletResponse response = mvc.perform(
+        MockMvcRequestBuilders
+            .get("/results/attempt/" + String.valueOf(attemptId))
+    ).andReturn().getResponse();
+
+    Assertions.assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    Assertions.assertThat(response.getContentAsString()).isEqualTo(multiplicationAttemptResultJson.write(
+        MultiplicationAttemptResult.builder().multiplicationAttempt(getAttempt())
+            .correct(true)
+            .build()
+    ).getJson());
+  }
+
+  private static MultiplicationAttempt getAttempt(){
+    return MultiplicationAttempt
+                .builder()
+                .multiplication(
+                    Multiplication
+                        .builder()
+                        .a(2)
+                        .b(3)
+                        .build()
+                )
+                .user(
+                    User
+                    .builder()
+                    .alias(USER)
+                    .build()
+                )
+                .attemptResult(6)
+                .build();
   }
 }
