@@ -12,6 +12,7 @@ import java.util.Date;
 @EqualsAndHashCode
 @Builder
 @Getter
+@ToString
 public class AttemptEntity {
   @Id
   @GeneratedValue

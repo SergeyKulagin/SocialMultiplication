@@ -14,6 +14,7 @@ import javax.persistence.Id;
 @Entity
 @EqualsAndHashCode
 @Builder
+@ToString
 public class MultiplicationEntity {
   @Id
   @GeneratedValue

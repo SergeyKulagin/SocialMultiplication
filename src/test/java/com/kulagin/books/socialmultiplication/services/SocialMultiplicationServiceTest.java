@@ -156,7 +156,7 @@ public class SocialMultiplicationServiceTest {
         correct,
         correct ? correctResult : correctResult + 100
     );
-    verify(attemptRepository).save(expectedAttempt);
+    BDDMockito.verify(attemptRepository).save(BDDMockito.refEq(expectedAttempt, "date"));
   }
 
 }

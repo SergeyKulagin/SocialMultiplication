@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @Getter
 @Entity
 @EqualsAndHashCode
+@ToString
 @Builder
 public class UserEntity {
   @Id
