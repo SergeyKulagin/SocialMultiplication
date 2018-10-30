@@ -131,6 +131,7 @@ public class SocialMultiplicationServiceTest {
                     .attemptResult(42)
                     .build()
             )
+         .build()
     );
   }
 
