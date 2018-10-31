@@ -12,6 +12,8 @@ spring:
     url: jdbc:h2:file:~/social-multiplication;DB_CLOSE_ON_EXIT=FALSE
   rabbitmq:
     host: 192.168.99.100
+  application:
+    name: multiplication
 
 amqp:
   multiplication:
@@ -21,6 +23,13 @@ amqp:
       routing-key: multiplication.attempt.done
 server:
   port: 8097
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:9999/eureka}
+  instance:
+    prefer-ip-address: true
+
 
 
 
