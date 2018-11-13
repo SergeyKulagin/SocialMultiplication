@@ -29,6 +29,9 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:9999/eureka}
   instance:
     prefer-ip-address: true
+logging:
+  file: logs/multiplication.txt
+
 
 
 
