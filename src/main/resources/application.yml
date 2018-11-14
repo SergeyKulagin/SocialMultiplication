@@ -9,7 +9,7 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:h2:file:~/social-multiplication;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:~/social-multiplication;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
   rabbitmq:
     host: 192.168.99.100
   application:
@@ -31,6 +31,11 @@ eureka:
     prefer-ip-address: true
 logging:
   file: logs/multiplication.txt
+
+
+service:
+  random:
+    up: 100
 
 
 
