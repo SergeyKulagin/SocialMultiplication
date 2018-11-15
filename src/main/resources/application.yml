@@ -31,8 +31,6 @@ eureka:
     prefer-ip-address: true
 logging:
   file: logs/multiplication.txt
-
-
 service:
   random:
     up: 100
