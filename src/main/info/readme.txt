@@ -1,0 +1,1 @@
+realm-export.json is an export file of the realm from keycloak server
