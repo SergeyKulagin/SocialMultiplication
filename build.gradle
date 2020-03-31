@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'com.bmuschko.docker-spring-boot-application' version '6.4.0'
     id 'java'
 }
 
@@ -17,6 +18,19 @@ repositories {
 ext {
     set('springCloudVersion', "Hoxton.SR3")
     set('keycloakVersion', '4.8.3.Final')
+}
+
+
+docker {
+    springBootApplication {
+        baseImage = 'openjdk:8-alpine'
+        images = ["sergeykulagin/social-multiplication:0.1"]
+    }
+
+    registryCredentials {
+        username = "sergeykulagin"
+//        todo deal with authorization
+    }
 }
 
 dependencies {
@@ -49,7 +63,7 @@ test {
 }
 
 group = 'com.kulagin.books'
-version = '0.0.1-SNAPSHOT'
+version = '0.1'
 description = 'Social-multiplication'
 sourceCompatibility = '1.8'
 

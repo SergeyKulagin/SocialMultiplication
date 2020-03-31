@@ -19,8 +19,6 @@ amqp:
       name: multiplication-exchange
     attempt-done-event:
       routing-key: multiplication.attempt.done
-server:
-  port: 8097
 
 
 
