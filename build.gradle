@@ -1,8 +1,8 @@
 plugins {
     id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id 'com.bmuschko.docker-spring-boot-application' version '6.4.0'
     id 'java'
+    id 'com.google.cloud.tools.jib' version '2.1.0'
 }
 
 configurations {
@@ -20,16 +20,14 @@ ext {
     set('keycloakVersion', '4.8.3.Final')
 }
 
-
-docker {
-    springBootApplication {
-        baseImage = 'openjdk:8-alpine'
-        images = ["sergeykulagin/social-multiplication:0.1"]
+jib {
+    from {
+//        arm64 image
+        image = 'openjdk@sha256:1cf16117086587938d544382a6c1d111e85772ed3973427c8c68c2959693bfae'
     }
-
-    registryCredentials {
-        username = "sergeykulagin"
-//        todo deal with authorization
+    to {
+        image = 'sergeykulagin/social-multiplication:0.3'
+        credHelper = 'pass'
     }
 }
 

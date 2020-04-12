@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: socian-multiplication-deployment
+  name: social-multiplication-deployment
   labels:
     app: social-multiplication
 spec:
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: social-multiplication
-          image: sergeykulagin/social-multiplication:0.1
+          image: sergeykulagin/social-multiplication:0.3
           ports:
           - containerPort: 8080
