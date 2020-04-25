@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: social-multiplication
-          image: sergeykulagin/social-multiplication:0.3
+          image: sergeykulagin/social-multiplication:latest
           ports:
           - containerPort: 8080

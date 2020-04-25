@@ -19,14 +19,13 @@ ext {
     set('springCloudVersion', "Hoxton.SR3")
     set('keycloakVersion', '4.8.3.Final')
 }
-
 jib {
     from {
-//        arm64 image
+        // arm64 image
         image = 'openjdk@sha256:1cf16117086587938d544382a6c1d111e85772ed3973427c8c68c2959693bfae'
     }
     to {
-        image = 'sergeykulagin/social-multiplication:0.3'
+        image = 'sergeykulagin/social-multiplication:latest'
         credHelper = 'pass'
     }
 }
@@ -38,15 +37,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.keycloak:keycloak-spring-boot-starter'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'junit:junit:4.12'
 }
 
 dependencyManagement {

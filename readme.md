@@ -6,3 +6,6 @@ https://github.com/GoogleContainerTools/jib
 # Others
 #### H2 console
 http://localhost:8080/h2-console/
+# todo
+- [ ] use test containers
+- [ ] use junit 5 (jupiter) 
