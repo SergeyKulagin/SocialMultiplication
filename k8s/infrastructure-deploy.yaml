@@ -26,18 +26,18 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: postgres-social-multiplication
   labels:
-    app: posgres
+    app: postgres-social-multiplication
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: postgres-social-multiplication
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-social-multiplication
     spec:
       containers:
         - name: postgres
@@ -47,3 +47,33 @@ spec:
           env:
           - name: POSTGRES_PASSWORD
             value: demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-mq-service
+  labels:
+    svc: rabbit-mq-service
+spec:
+  ports:
+    - name: mq
+      port: 5672
+      protocol: TCP
+    - name: management
+      port: 15672
+      protocol: TCP
+  selector:
+    app: rabbit-mq
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-social-multiplication-service
+  labels:
+    svc: postgres-social-multiplication-service
+spec:
+  ports:
+    - port: 5432
+      protocol: TCP
+  selector:
+    app: postgres-social-multiplication

@@ -14,14 +14,14 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:postgresql://postgres/postgres
+    url: jdbc:postgresql://postgres-social-multiplication-service/postgres
     username: postgres
     password: demo
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 5
   rabbitmq:
-    host: rabbit-mq
+    host: rabbit-mq-service
 
 amqp:
   multiplication:
@@ -39,7 +39,6 @@ keycloak:
   resource: ms-book-backend
   bearer-only: true
   cors: true
-debug: true
 
 
 
