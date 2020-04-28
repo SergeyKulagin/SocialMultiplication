@@ -128,4 +128,4 @@ spec:
     - port: 8080
       protocol: TCP
   selector:
-    app: keycloak-common-external-service
+    app: keycloak-common
