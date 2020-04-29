@@ -1,6 +1,5 @@
 server:
   port: 8080
-
 spring:
   application:
     name: multiplication
@@ -14,15 +13,15 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:postgresql://postgres-social-multiplication-service/postgres
-    username: postgres
-    password: demo
+    url: jdbc:postgresql://${POSTGRES_URL:postgres-social-multiplication-service}/postgres
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:demo}
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 5
   rabbitmq:
-    host: rabbit-mq-service
-
+    host: ${RABBIT_HOST:rabbit-mq-service}
+    port: ${RABBIT_PORT:5672}
 amqp:
   multiplication:
     exchange:
@@ -34,16 +33,9 @@ service:
     up: 100
 keycloak:
   realm: ms-book-realm
-  auth-server-url: http://localhost:8180/auth
+  auth-server-url: http://${KEYCLOAK_URL:keycloak-common-service}/auth
   public-client: true
   resource: ms-book-backend
   bearer-only: true
   cors: true
-
-
-
-
-
-
-
-
+  enable-basic-auth: false
