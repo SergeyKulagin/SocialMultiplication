@@ -1,0 +1,6 @@
+jib {
+    to {
+        image = 'sergeykulagin/social-multiplication:latest'
+        credHelper = 'pass'
+    }
+}
