@@ -34,8 +34,10 @@ service:
 keycloak:
   realm: ms-book-realm
   auth-server-url: http://${KEYCLOAK_URL:keycloak-common-service}/auth
-  public-client: true
   resource: ms-book-backend
   bearer-only: true
   cors: true
-  enable-basic-auth: false
+  credentials:
+    secret: 10de2b6a-aa4c-4a05-84ea-e29de645fc93
+  ssl-required: none
+debug: true
