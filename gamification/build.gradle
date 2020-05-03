@@ -1,0 +1,6 @@
+jib {
+    to {
+        image = 'sergeykulagin/gamification:latest'
+        credHelper = 'pass'
+    }
+}

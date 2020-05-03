@@ -1,0 +1,34 @@
+amqp:
+  multiplication:
+    exchange:
+      name: multiplication-exchange
+    gamification:
+      route: multiplication.attempt.done
+      queue:
+        name: multiplication-events-queue
+spring:
+  rabbitmq:
+    host: ${RABBIT_HOST:rabbit-mq-service}
+    port: ${RABBIT_PORT:5672}
+    listener:
+      direct:
+        acknowledge-mode: auto
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_URL:postgres-gamification-service}/postgres
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:demo}
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+  application:
+    name: gamification
+server:
+  port: 8080
+multiplication-service:
+  url: http://social-multiplication-service

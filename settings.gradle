@@ -4,3 +4,4 @@
 
 rootProject.name = 'ms-book'
 include 'multiplication'
+include 'gamification'
