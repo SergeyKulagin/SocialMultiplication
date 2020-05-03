@@ -1,13 +1,12 @@
 package com.kulagin.books.gamification;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kulagin.books.gamification.controller.LeaderBoardController;
-import com.kulagin.books.gamification.domain.LeaderBoardRow;
-import com.kulagin.books.gamification.service.LeaderBoardService;
+import java.util.Arrays;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,14 +14,15 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kulagin.books.gamification.controller.LeaderBoardController;
+import com.kulagin.books.gamification.domain.LeaderBoardRow;
+import com.kulagin.books.gamification.service.LeaderBoardService;
 
-import java.util.Arrays;
-import java.util.List;
-
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(LeaderBoardController.class)
 public class LeaderBoardControllerTest {
   @MockBean
