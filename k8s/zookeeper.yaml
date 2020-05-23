@@ -29,6 +29,10 @@ spec:
   ports:
     - port: 8080
       nodePort: 30014
+      name: admin
+    - port: 2181
+      nodePort: 30016
+      name: client
 ---
 apiVersion: apps/v1
 kind: StatefulSet

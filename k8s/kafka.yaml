@@ -12,6 +12,42 @@ spec:
   selector:
     app: kafka
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-external-service-0
+spec:
+  type: NodePort
+  selector:
+    "statefulset.kubernetes.io/pod-name": kafka-0
+  ports:
+    - port: 9093
+      nodePort: 30020
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-external-service-1
+spec:
+  type: NodePort
+  selector:
+    "statefulset.kubernetes.io/pod-name": kafka-1
+  ports:
+    - port: 9093
+      nodePort: 30021
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-external-service-2
+spec:
+  type: NodePort
+  selector:
+    "statefulset.kubernetes.io/pod-name": kafka-2
+  ports:
+    - port: 9093
+      nodePort: 30022
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -43,11 +79,15 @@ spec:
               value: "kafka"
             - name: "KUBERNETES_SERVICE"
               value: "kafka-service"
+            - name: "KAFKA_EXTERNAL_LISTENER_HOST"
+              value: "192.168.100.35"
           imagePullPolicy: Always
           image: "sergeykulagin/kafka:latest"
           ports:
             - containerPort: 9092
               name: server
+            - containerPort: 9093
+              name: server-external
 #          volumeMounts:
 #            - name: data-zookeeper
 #              mountPath: /var/lib/zookeeper
