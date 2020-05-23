@@ -1,1 +1,0 @@
-DOCKER_BUILD_KIT=1 DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --platform linux/arm64 --tag sergeykulagin/keycloak:9.0.3 --push .

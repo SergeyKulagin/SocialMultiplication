@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zk-cs
+  labels:
+    app: zk-cs
+spec:
+  ports:
+    - port: 2181
+      name: client
+    - port: 2888
+      name: server
+    - port: 3888
+      name: leader-election
+    - port: 8080
+      name: admin
+  clusterIP: None
+  selector:
+    app: zk
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-external-service
+spec:
+  type: NodePort
+  selector:
+    app: zk
+  ports:
+    - port: 8080
+      nodePort: 30014
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zk
+spec:
+  serviceName: zk-cs
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zk
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: zk
+    spec:
+      containers:
+        - name: zookeeper
+          env:
+            - name: "ZOO_SERVERS"
+              value: "server.1=zk-0.zk-cs:2888:3888;2181 server.2=zk-1.zk-cs:2888:3888;2181 server.3=zk-2.zk-cs:2888:3888;2181"
+            - name: "ID_FROM_HOSTNAME"
+              value: "true"
+          imagePullPolicy: Always
+          image: "sergeykulagin/zookeeper:latest"
+          ports:
+            - containerPort: 2181
+              name: client
+            - containerPort: 2888
+              name: server
+            - containerPort: 3888
+              name: leader-election
+            - containerPort: 8080
+              name: admin
+          volumeMounts:
+            - name: data-zookeeper
+              mountPath: /var/lib/zookeeper
+              readOnly: false
+  volumeClaimTemplates:
+    - metadata:
+        name: data-zookeeper
+        annotations:
+          volume.beta.kubernetes.io/storage-class: "nfs"
+      spec:
+        accessModes: [ "ReadWriteMany" ]
+        resources:
+          requests:
+            storage: 1Gi
