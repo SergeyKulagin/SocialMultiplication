@@ -45,8 +45,6 @@ spec:
     matchLabels:
       app: zk
   podManagementPolicy: Parallel
-  updateStrategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -60,7 +58,7 @@ spec:
             - name: "ID_FROM_HOSTNAME"
               value: "true"
           imagePullPolicy: Always
-          image: "sergeykulagin/zookeeper:latest"
+          image: "sergeykulagin/zookeeper:3.5.7"
           ports:
             - containerPort: 2181
               name: client
@@ -72,7 +70,7 @@ spec:
               name: admin
           volumeMounts:
             - name: data-zookeeper
-              mountPath: /var/lib/zookeeper
+              mountPath: /data
               readOnly: false
   volumeClaimTemplates:
     - metadata:

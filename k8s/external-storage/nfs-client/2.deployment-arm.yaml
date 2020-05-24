@@ -32,7 +32,7 @@ spec:
             - name: NFS_SERVER
               value: 10.0.0.40
             - name: NFS_PATH
-              value: "/export/nsf-0 *(rw,sync,no_subtree_check,no_root_squash)"
+              value: "/export/nsf-0"
       volumes:
         - name: nfs-client-root
           nfs:
