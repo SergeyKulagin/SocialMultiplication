@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: zk-cs
+  name: zk-service
   labels:
-    app: zk-cs
+    app: zk-service
 spec:
   ports:
     - port: 2181
@@ -39,7 +39,7 @@ kind: StatefulSet
 metadata:
   name: zk
 spec:
-  serviceName: zk-cs
+  serviceName: zk-service
   replicas: 3
   selector:
     matchLabels:
@@ -54,9 +54,7 @@ spec:
         - name: zookeeper
           env:
             - name: "ZOO_SERVERS"
-              value: "server.1=zk-0.zk-cs:2888:3888;2181 server.2=zk-1.zk-cs:2888:3888;2181 server.3=zk-2.zk-cs:2888:3888;2181"
-            - name: "ID_FROM_HOSTNAME"
-              value: "true"
+              value: "server.1=zk-0.zk-service:2888:3888;2181 server.2=zk-1.zk-service:2888:3888;2181 server.3=zk-2.zk-service:2888:3888;2181"
           imagePullPolicy: Always
           image: "sergeykulagin/zookeeper:3.5.7"
           ports:
