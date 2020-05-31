@@ -47,6 +47,29 @@ spec:
           env:
           - name: POSTGRES_PASSWORD
             value: demo
+          - name: PGDATA
+            value: "/var/lib/postgresql/data/pgdata"
+          volumeMounts:
+            - name: data-dir
+              mountPath: "/var/lib/postgresql/data"
+              readOnly: false
+      volumes:
+        - name: data-dir
+          persistentVolumeClaim:
+            claimName: postgres-claim
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-claim
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
