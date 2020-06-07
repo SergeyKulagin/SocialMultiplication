@@ -13,9 +13,9 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:postgresql://${POSTGRES_URL:postgres-social-multiplication-service}/postgres
-    username: ${POSTGRES_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD:demo}
+    url: jdbc:postgresql://${POSTGRES_URL:postgres-common-service}/multiplication
+    username: ${POSTGRES_USERNAME:multiplication}
+    password: ${POSTGRES_PASSWORD:multiplication}
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 5

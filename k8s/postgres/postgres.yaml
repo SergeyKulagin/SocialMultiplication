@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-common
+  labels:
+    app: postgres-common
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-common
+  template:
+    metadata:
+      labels:
+        app: postgres-common
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:12.2
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: demo
+            - name: PGDATA
+              value: "/var/lib/postgresql/data"
+          volumeMounts:
+            - name: init-db
+              mountPath: /docker-entrypoint-initdb.d
+            - name: data-dir
+              mountPath: "/var/lib/postgresql/data"
+              readOnly: false
+      initContainers:
+        - name: init-db
+          image: busybox
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "create user gamification password 'gamification';" >> /docker-entrypoint-initdb.d/gamification.sql;
+              echo "create database gamification owner gamification;" >> /docker-entrypoint-initdb.d/gamification.sql;
+              echo "create user multiplication password 'multiplication';" >> /docker-entrypoint-initdb.d/multiplication.sql;
+              echo "create database multiplication owner multiplication;" >> /docker-entrypoint-initdb.d/multiplication.sql;
+              echo "create user keycloak password 'keycloak';" >> /docker-entrypoint-initdb.d/keycloak.sql;
+              echo "create database keycloak owner keycloak;" >> /docker-entrypoint-initdb.d/keycloak.sql;
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: init-db
+      volumes:
+        - name: init-db
+          emptyDir: {}
+        - name: data-dir
+          persistentVolumeClaim:
+            claimName: postgres-common-claim
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-common-claim
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-common-service
+  labels:
+    svc: postgres-common-service
+spec:
+  ports:
+    - port: 5432
+      protocol: TCP
+  selector:
+    app: postgres-common
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-common-external-service
+spec:
+  type: NodePort
+  selector:
+    app: postgres-common
+  ports:
+    - port: 5432
+      nodePort: 35432

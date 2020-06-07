@@ -20,9 +20,9 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:postgresql://${POSTGRES_URL:postgres-gamification-service}/postgres
-    username: ${POSTGRES_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD:demo}
+    url: jdbc:postgresql://${POSTGRES_URL:postgres-common-service}/gamification
+    username: ${POSTGRES_USERNAME:gamification}
+    password: ${POSTGRES_PASSWORD:gamification}
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 5
