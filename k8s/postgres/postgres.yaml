@@ -36,12 +36,31 @@ spec:
           command: ["sh", "-c"]
           args:
             - |
-              echo "create user gamification password 'gamification';" >> /docker-entrypoint-initdb.d/gamification.sql;
-              echo "create database gamification owner gamification;" >> /docker-entrypoint-initdb.d/gamification.sql;
-              echo "create user multiplication password 'multiplication';" >> /docker-entrypoint-initdb.d/multiplication.sql;
-              echo "create database multiplication owner multiplication;" >> /docker-entrypoint-initdb.d/multiplication.sql;
-              echo "create user keycloak password 'keycloak';" >> /docker-entrypoint-initdb.d/keycloak.sql;
-              echo "create database keycloak owner keycloak;" >> /docker-entrypoint-initdb.d/keycloak.sql;
+              echo "create or replace procedure createdatabasewithuser(dbname text, owneruser text, ownerpassword text)
+                        language plpgsql
+                    as
+                    \$\$
+                    begin
+                        create extension if not exists dblink;
+                        begin
+                            EXECUTE format('CREATE user %I WITH PASSWORD ''%I''', ownerUser, ownerPassword);
+
+                        exception
+                            when duplicate_object then
+                                raise notice 'user % exists, ignore', ownerUser;
+                        end;
+
+                        begin
+                            perform dblink_exec('dbname=' || current_database(),
+                                                'CREATE DATABASE ' || quote_ident(dbname));
+                            execute format('alter database %I owner to %I', dbname, owneruser);
+                        exception
+                            when duplicate_database then
+                                raise notice 'database % exists, ignore', dbName;
+                        end;
+                    end
+                    \$\$;" >> /docker-entrypoint-initdb.d/gamification.sql;
+              echo "call createdatabasewithuser('gamification', 'gamification', 'gamification');"  >> /docker-entrypoint-initdb.d/gamification.sql;
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
               name: init-db
@@ -88,4 +107,4 @@ spec:
     app: postgres-common
   ports:
     - port: 5432
-      nodePort: 35432
+      nodePort: 30010

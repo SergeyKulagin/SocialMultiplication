@@ -28,10 +28,10 @@ spec:
     "statefulset.kubernetes.io/pod-name": zk-0
   ports:
     - port: 8080
-      nodePort: 30120
+      nodePort: 30035
       name: admin
     - port: 2181
-      nodePort: 30130
+      nodePort: 30030
       name: client
 ---
 apiVersion: v1
@@ -44,10 +44,10 @@ spec:
     "statefulset.kubernetes.io/pod-name": zk-1
   ports:
     - port: 8080
-      nodePort: 30121
+      nodePort: 30036
       name: admin
     - port: 2181
-      nodePort: 30131
+      nodePort: 30031
       name: client
 ---
 apiVersion: v1
@@ -60,10 +60,10 @@ spec:
     "statefulset.kubernetes.io/pod-name": zk-2
   ports:
     - port: 8080
-      nodePort: 30122
+      nodePort: 30037
       name: admin
     - port: 2181
-      nodePort: 30132
+      nodePort: 30032
       name: client
 ---
 apiVersion: apps/v1
