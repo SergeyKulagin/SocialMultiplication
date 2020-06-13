@@ -1,18 +1,27 @@
 package com.kulagin.books.gamification.service.impl;
 
-import com.kulagin.books.gamification.domain.*;
+import static java.util.Collections.emptyList;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import com.kulagin.books.gamification.domain.Badge;
+import com.kulagin.books.gamification.domain.BadgeCard;
+import com.kulagin.books.gamification.domain.GameStats;
+import com.kulagin.books.gamification.domain.MultiplicationAttemptResult;
+import com.kulagin.books.gamification.domain.ScoreCard;
 import com.kulagin.books.gamification.repository.BadgeCardRepository;
 import com.kulagin.books.gamification.repository.ScoreCardRepository;
 import com.kulagin.books.gamification.service.GamificationService;
 import com.kulagin.books.gamification.service.MultiplicationService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -114,8 +123,9 @@ public class GamificationServiceImpl implements GamificationService {
   }
 
   private GameStats getCurrentStats(Long userId) {
-    final Integer totalScore = scoreCardRepository.getTotalScore(userId);
-    final List<BadgeCard> badgeCards = badgeCardRepository.getBadgeCardsByUserId(userId);
+    final Integer totalScore = Optional.ofNullable(scoreCardRepository.getTotalScore(userId)).orElse(0);
+    final List<BadgeCard> badgeCards = Optional
+            .ofNullable(badgeCardRepository.getBadgeCardsByUserId(userId)).orElse(emptyList());
 
     return GameStats
         .builder()

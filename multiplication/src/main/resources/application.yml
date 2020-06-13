@@ -28,3 +28,7 @@ amqp:
 service:
   random:
     up: 100
+
+springdoc:
+  api-docs:
+    enabled: true
