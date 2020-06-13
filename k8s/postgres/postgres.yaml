@@ -61,6 +61,7 @@ spec:
                     end
                     \$\$;" >> /docker-entrypoint-initdb.d/gamification.sql;
               echo "call createdatabasewithuser('gamification', 'gamification', 'gamification');"  >> /docker-entrypoint-initdb.d/gamification.sql;
+              echo "call createdatabasewithuser('multiplication', 'multiplication', 'multiplication');"  >> /docker-entrypoint-initdb.d/gamification.sql;
           volumeMounts:
             - mountPath: /docker-entrypoint-initdb.d
               name: init-db
