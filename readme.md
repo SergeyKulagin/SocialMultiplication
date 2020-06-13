@@ -7,6 +7,8 @@ http://<gamification | multiplication>/swagger-ui/index.html
 - Apps (spring boot)
 - Postgres
 - Rabbit MQ
+# Kubernetes deployments
+Here [deployments](https://github.com/SergeyKulagin/kubernetes)
 # Containerization
 #### Build for multiple architectures
 https://mirailabs.io/blog/multiarch-docker-with-buildx/
