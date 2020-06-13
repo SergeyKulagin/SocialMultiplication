@@ -40,7 +40,6 @@ spec:
   selector:
     app: rabbit-mq
 ---
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -51,4 +50,4 @@ spec:
     app: rabbit-mq
   ports:
     - port: 5672
-      nodePort: 35672
+      nodePort: 30040

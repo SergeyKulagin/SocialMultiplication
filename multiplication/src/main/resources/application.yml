@@ -3,9 +3,6 @@ server:
 spring:
   application:
     name: multiplication
-  h2:
-    console:
-      enabled: true
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,14 +10,14 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:postgresql://${POSTGRES_URL:postgres-common-service}/multiplication
+    url: jdbc:postgresql://${POSTGRES_URL:localhost:5432}/multiplication
     username: ${POSTGRES_USERNAME:multiplication}
     password: ${POSTGRES_PASSWORD:multiplication}
     hikari:
       connection-timeout: 20000
       maximum-pool-size: 5
   rabbitmq:
-    host: ${RABBIT_HOST:rabbit-mq-service}
+    host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5672}
 amqp:
   multiplication:
@@ -31,13 +28,3 @@ amqp:
 service:
   random:
     up: 100
-keycloak:
-  realm: ms-book-realm
-  auth-server-url: http://${KEYCLOAK_URL:keycloak-common-service}/auth
-  resource: ms-book-backend
-  bearer-only: true
-  cors: true
-  credentials:
-    secret: 10de2b6a-aa4c-4a05-84ea-e29de645fc93
-  ssl-required: none
-debug: true

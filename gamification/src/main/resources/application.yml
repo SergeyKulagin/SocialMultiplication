@@ -1,3 +1,5 @@
+server:
+  port: 8080
 amqp:
   multiplication:
     exchange:
@@ -8,7 +10,7 @@ amqp:
         name: multiplication-events-queue
 spring:
   rabbitmq:
-    host: ${RABBIT_HOST:rabbit-mq-service}
+    host: ${RABBIT_HOST:localhost}
     port: ${RABBIT_PORT:5672}
     listener:
       direct:
@@ -20,7 +22,7 @@ spring:
       hibernate:
         show_sql: true
   datasource:
-    url: jdbc:postgresql://${POSTGRES_URL:postgres-common-service}/gamification
+    url: jdbc:postgresql://${POSTGRES_URL:localhost:5432}/gamification
     username: ${POSTGRES_USERNAME:gamification}
     password: ${POSTGRES_PASSWORD:gamification}
     hikari:
@@ -28,7 +30,5 @@ spring:
       maximum-pool-size: 5
   application:
     name: gamification
-server:
-  port: 8080
 multiplication-service:
   url: http://social-multiplication-service

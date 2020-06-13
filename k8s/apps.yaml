@@ -19,6 +19,11 @@ spec:
           image: sergeykulagin/social-multiplication:latest
           ports:
           - containerPort: 8080
+          env:
+            - name: POSTGRES_URL
+              value: postgres-common-service
+            - name: RABBIT_HOST
+              value: rabbit-mq-service
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -41,6 +46,11 @@ spec:
           image: sergeykulagin/gamification:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: POSTGRES_URL
+              value: postgres-common-service
+            - name: RABBIT_HOST
+              value: rabbit-mq-service
 ---
 apiVersion: v1
 kind: Service
